@@ -6,4 +6,4 @@
 
 #include "hello_world.hpp"
 
-DEFINE_PLUGIN_ENTRY()
+DEFINE_PLUGIN_ENTRY(fins::STATELESS)
