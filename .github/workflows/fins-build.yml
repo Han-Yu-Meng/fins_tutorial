@@ -85,6 +85,14 @@ jobs:
           else
             echo "No Cppcheck issues found."
           fi
+          
+      - name: Cache APT Archives
+        uses: actions/cache@v4
+        with:
+          path: apt-cache
+          key: apt-cache-${{ matrix.os }}-${{ matrix.arch }}-${{ hashFiles('package.yaml') }}
+          restore-keys: |
+            apt-cache-${{ matrix.os }}-${{ matrix.arch }}-
 
       - name: Install Basic Tools
         run: |
@@ -120,14 +128,6 @@ jobs:
         run: |
           PKG_NAME=$(python3 -c "import yaml; print(yaml.safe_load(open('package.yaml'))['name'])")
           echo "PACKAGE_NAME=$PKG_NAME" >> $GITHUB_OUTPUT
-
-      - name: Cache APT Archives
-        uses: actions/cache@v4
-        with:
-          path: apt-cache
-          key: apt-cache-${{ matrix.os }}-${{ matrix.arch }}-${{ hashFiles('package.yaml') }}
-          restore-keys: |
-            apt-cache-${{ matrix.os }}-${{ matrix.arch }}-
 
       - name: Cache Fins Dependencies
         uses: actions/cache@v4
